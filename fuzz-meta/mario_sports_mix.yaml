@@ -1,0 +1,24 @@
+Mario Sports Mix:
+  fuzz_constraints:
+    basket_time: 2_mins_30_secs
+    enable_b_points_win: true
+    b_points_win: 10
+    b_period: 1
+    dodge_time: 3_mins
+    d_period: 1
+    d_max_health: '100'
+    v_points_win: 10
+    v_period: 1
+    hockey_time: 3_mins
+    enable_h_points_win: true
+    h_points_win: 10
+    h_period: 1
+    behemoth_hp: 2400
+    behemoth_king_hp: 3000
+    deathlink: false
+    deathlink_action: losing_or_tying_a_match
+    deathlink_consequence: lose_match
+    deathlink_opponent_scores_points: 10
+    deathlink_opponent_get_points: 10
+    deathlink_boss_health_recovered: 20
+    deathlink_dodgeball_health_lost: 20
