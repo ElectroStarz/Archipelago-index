@@ -1,23 +1,34 @@
+meta_description: Steers the fuzz away from option combinations Mario Sports Mix rejects in generate_early (__init__.py). Every other option stays random.
 Mario Sports Mix:
-  basket_time: 2_mins_30_secs
-  enable_b_points_win: true
-  b_points_win: 10
-  b_period: 1
-  dodge_time: 3_mins
-  d_period: 1
-  d_max_health: '100'
-  v_points_win: 10
-  v_period: 1
-  hockey_time: 3_mins
-  enable_h_points_win: true
-  h_points_win: 10
-  h_period: 1
-  behemoth_hp: 2400
-  behemoth_king_hp: 3000
-  deathlink: false
-  deathlink_action: losing_or_tying_a_match
-  deathlink_consequence: lose_match
-  deathlink_opponent_scores_points: 10
-  deathlink_opponent_get_points: 10
-  deathlink_boss_health_recovered: 20
-  deathlink_dodgeball_health_lost: 20
+  fuzz_constraints:
+    # __init__.py:158-168: boss locations need tournaments; Behemoth King also needs Sports Mix
+    - option: boss_locations
+      if_value: defeat_behemoth
+      then: {include_tournaments: 'true'}
+    - option: boss_locations
+      if_value: defeat_behemoth_king
+      then: {include_tournaments: 'true'}
+      then_include: {enabled_sports: ["Sports Mix"]}
+    - option: boss_locations
+      if_value: both
+      then: {include_tournaments: 'true'}
+      then_include: {enabled_sports: ["Sports Mix"]}
+    # __init__.py:191-195: alt paths need tournaments
+    - option: include_alt_paths
+      if_value: 'true'
+      then: {include_tournaments: 'true'}
+    # __init__.py:209-217: Behemoth / Behemoth King / Win Cups goals need tournaments; Behemoth King needs Sports Mix
+    - option: goal_condition
+      if_value: defeat_behemoth
+      then: {include_tournaments: 'true'}
+    - option: goal_condition
+      if_value: defeat_behemoth_king
+      then: {include_tournaments: 'true'}
+      then_include: {enabled_sports: ["Sports Mix"]}
+    - option: goal_condition
+      if_value: win_cups
+      then: {include_tournaments: 'true'}
+    # __init__.py:219-227: Exhibition Tour needs exhibitions with Exhibition Type: All Sports
+    - option: goal_condition
+      if_value: exhibition_tour
+      then: {include_exhibition: 'true', exhibition_type: all_sports}
